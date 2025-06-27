@@ -404,7 +404,7 @@ export default function Home() {
           </div>
           <div className="border-t pt-8 mt-8 text-center" style={{ borderColor: 'var(--border)' }}>
             <p style={{ color: 'var(--text-tertiary)' }}>
-              &copy; 2024 PolyLiquid. Built for the future of DeFi.
+              &copy; 2025 PolyLiquid. Built for the future of DeFi.
             </p>
           </div>
         </div>
