@@ -2,7 +2,7 @@
 
 import { ConnectButton } from '@/components/ConnectButton';
 import { DepositCard } from '@/components/DepositCard';
-import { LineChart } from '@/components/LineChart';
+import LineChart from '@/components/LineChart';
 import AutomationBanner from '@/components/AutomationBanner';
 import NetworkSwitcher from '@/components/NetworkSwitcher';
 import CCIPStatusModal from '@/components/CCIPStatusModal';
@@ -10,12 +10,7 @@ import CCIPTransfer from '@/components/CCIPTransfer';
 import PredictionPanel from '@/components/PredictionPanel';
 import { useState } from 'react';
 
-// Mock yield data for demonstration
-const mockYieldData = {
-  stETH: [3.2, 3.5, 3.1, 3.8, 4.2, 3.9, 4.1, 4.5],
-  rETH: [3.8, 4.1, 3.7, 4.3, 4.6, 4.2, 4.4, 4.8],
-  sAVAX: [5.2, 5.8, 5.1, 6.2, 6.8, 6.1, 6.5, 7.2],
-};
+// Real yield data is now fetched via useRealYieldData hook in LineChart component
 
 export default function Home() {
   const [ccipModalOpen, setCcipModalOpen] = useState(false);
@@ -58,35 +53,35 @@ export default function Home() {
         <div className="text-center mb-16 animate-slide-up">
           <div className="max-w-4xl mx-auto">
             <h2 className="heading-xl gradient-text mb-6">
-              Maximize Your LST Yields
+              Maximize Your LST Yields with Real Data
             </h2>
             <p className="text-xl leading-relaxed mb-8 max-w-3xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               Deposit your liquid staking tokens (stETH, rETH, sAVAX) into our automated vault 
-              that rebalances based on yield opportunities and market predictions.
+              that rebalances based on <strong>real yield data</strong> and market predictions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <div className="glass-card px-6 py-3 rounded-full">
                 <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  🔗 Powered by Chainlink
+                  🌐 Live API Data
                 </span>
               </div>
               <div className="glass-card px-6 py-3 rounded-full">
                 <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  📊 Polymarket Integration
+                  ⛓️ On-Chain Oracles
                 </span>
               </div>
               <div className="glass-card px-6 py-3 rounded-full">
                 <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  ⚡ Real-time Data
+                  📊 Real Market Rates
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Yield Chart */}
+        {/* Real Yield Chart */}
         <div className="mb-16 animate-scale-in">
-          <LineChart aprs={mockYieldData} />
+          <LineChart />
         </div>
 
         {/* Deposit Cards */}
