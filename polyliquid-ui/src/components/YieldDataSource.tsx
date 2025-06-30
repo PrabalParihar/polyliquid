@@ -89,10 +89,10 @@ export default function YieldDataSource({ onSourceChange }: YieldDataSourceProps
                 {useRealData && 'source' in data && (
                   <>
                     <span className="text-xs">
-                      {getSourceIcon(data.source)}
+                      {getSourceIcon(data.source as string)}
                     </span>
                     <span className="text-xs text-gray-500">
-                      {getSourceLabel(data.source)}
+                      {getSourceLabel(data.source as string)}
                     </span>
                   </>
                 )}
@@ -112,7 +112,7 @@ export default function YieldDataSource({ onSourceChange }: YieldDataSourceProps
             
             {useRealData && 'lastUpdate' in data && (
               <div className="text-xs text-gray-500 mt-1">
-                Updated: {new Date(data.lastUpdate).toLocaleTimeString()}
+                Updated: {new Date(data.lastUpdate as number).toLocaleTimeString()}
               </div>
             )}
           </div>

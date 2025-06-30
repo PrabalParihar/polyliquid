@@ -1,6 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
+interface PoolData {
+  pool: string;
+  project: string;
+  symbol: string;
+  apy: number;
+  apyBase?: number;
+  apyReward?: number;
+  tvlUsd: number;
+  chain: string;
+}
+
+interface DeFiLlamaResponse {
+  status: string;
+  data: PoolData[];
+}
+
+export async function GET() {
   try {
     console.log('🔄 Fetching LST yields from DeFiLlama...');
     
@@ -11,86 +27,68 @@ export async function GET(request: NextRequest) {
         'Accept': 'application/json',
         'User-Agent': 'PolyLiquid/1.0',
       },
-      next: { revalidate: 600 }, // Cache for 10 minutes
+      next: { revalidate: 300 }, // Cache for 5 minutes
     });
 
     if (!response.ok) {
       throw new Error(`DeFiLlama API error: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: DeFiLlamaResponse = await response.json();
     
-    // Extract relevant LST pools
-    const lstPools = data.data?.filter((pool: any) => {
-      const symbol = pool.symbol?.toLowerCase() || '';
-      const project = pool.project?.toLowerCase() || '';
-      
-      return (
-        symbol.includes('steth') || 
-        symbol.includes('reth') || 
-        symbol.includes('savax') ||
-        project.includes('lido') ||
-        project.includes('rocket') ||
-        project.includes('benqi')
-      );
-    }) || [];
+    // Extract LST yields - search for known pools
+    const stETHPool = data.data?.find((pool: PoolData) => 
+      (pool.symbol?.toLowerCase().includes('steth') || 
+       pool.pool?.toLowerCase().includes('steth') ||
+       pool.project?.toLowerCase().includes('lido')) &&
+      pool.chain?.toLowerCase() === 'ethereum'
+    );
 
-    // Process and map to our tokens
-    const yields: Record<string, number> = {};
+    const rETHPool = data.data?.find((pool: PoolData) => 
+      (pool.symbol?.toLowerCase().includes('reth') || 
+       pool.pool?.toLowerCase().includes('reth') ||
+       pool.project?.toLowerCase().includes('rocket')) &&
+      pool.chain?.toLowerCase() === 'ethereum'
+    );
+
+    const sAVAXPool = data.data?.find((pool: PoolData) => 
+      (pool.symbol?.toLowerCase().includes('savax') || 
+       pool.pool?.toLowerCase().includes('savax') ||
+       pool.project?.toLowerCase().includes('benqi')) &&
+      pool.chain?.toLowerCase() === 'avalanche'
+    );
+
+    const yields = {
+      stETH: stETHPool?.apy || stETHPool?.apyBase || 2.64,
+      rETH: rETHPool?.apy || rETHPool?.apyBase || 2.55,
+      sAVAX: sAVAXPool?.apy || sAVAXPool?.apyBase || 5.21,
+    };
     
-    // Find stETH yields
-    const stethPool = lstPools.find((p: any) => 
-      p.symbol?.toLowerCase().includes('steth') || 
-      p.project?.toLowerCase().includes('lido')
-    );
-    if (stethPool) {
-      yields.stETH = parseFloat(stethPool.apy || stethPool.apyBase || '4.5');
-    }
-
-    // Find rETH yields  
-    const rethPool = lstPools.find((p: any) => 
-      p.symbol?.toLowerCase().includes('reth') || 
-      p.project?.toLowerCase().includes('rocket')
-    );
-    if (rethPool) {
-      yields.rETH = parseFloat(rethPool.apy || rethPool.apyBase || '4.8');
-    }
-
-    // Find sAVAX yields
-    const savaxPool = lstPools.find((p: any) => 
-      p.symbol?.toLowerCase().includes('savax') || 
-      p.project?.toLowerCase().includes('benqi')
-    );
-    if (savaxPool) {
-      yields.sAVAX = parseFloat(savaxPool.apy || savaxPool.apyBase || '7.2');
-    }
-
     console.log('✅ LST yields from DeFiLlama:', yields);
 
     return NextResponse.json({
-      yields,
+      ...yields,
       source: 'defiLlama',
       timestamp: Date.now(),
-      pools: lstPools.length,
-      ...yields, // Spread yields to top level for easier access
+      pools: {
+        stETH: stETHPool?.pool,
+        rETH: rETHPool?.pool,
+        sAVAX: sAVAXPool?.pool,
+      },
     });
 
-  } catch (error: any) {
-    console.error('❌ DeFiLlama API error:', error.message);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    console.error('❌ DeFiLlama API error:', errorMessage);
     
-    // Return fallback yields
+    // Return fallback data with realistic yields
     return NextResponse.json({
-      yields: {
-        stETH: 4.5,
-        rETH: 4.8,
-        sAVAX: 7.2,
-      },
-      stETH: 4.5,
-      rETH: 4.8,
-      sAVAX: 7.2,
+      stETH: 2.64,
+      rETH: 2.55,
+      sAVAX: 5.21,
       source: 'fallback',
       timestamp: Date.now(),
-      error: error.message,
+      error: errorMessage,
     }, { status: 200 });
   }
 } 

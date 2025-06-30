@@ -99,7 +99,7 @@ export default function LineChart() {
           font: {
             family: 'Inter, system-ui, sans-serif',
             size: 12,
-            weight: '500',
+            weight: 500,
           },
           usePointStyle: true,
           pointStyle: 'circle',
@@ -112,7 +112,7 @@ export default function LineChart() {
         font: {
           family: 'Inter, system-ui, sans-serif',
           size: 16,
-          weight: '600',
+          weight: 600,
         },
         padding: {
           top: 10,
@@ -164,10 +164,7 @@ export default function LineChart() {
     },
     interaction: {
       intersect: false,
-      mode: 'index',
-    },
-    hover: {
-      animationDuration: 0,
+      mode: 'index' as const,
     },
     animation: {
       duration: 1000,

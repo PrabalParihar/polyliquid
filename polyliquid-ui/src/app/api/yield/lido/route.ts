@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     console.log('🔄 Fetching stETH yield from Lido API...');
     
@@ -32,15 +32,16 @@ export async function GET(request: NextRequest) {
       raw: data,
     });
 
-  } catch (error: any) {
-    console.error('❌ Lido API error:', error.message);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    console.error('❌ Lido API error:', errorMessage);
     
     // Return fallback data
     return NextResponse.json({
       apr: 4.5, // Fallback yield
       source: 'fallback',
       timestamp: Date.now(),
-      error: error.message,
+      error: errorMessage,
     }, { status: 200 }); // Still return 200 to avoid breaking the frontend
   }
 } 

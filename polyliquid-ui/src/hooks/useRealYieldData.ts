@@ -24,13 +24,6 @@ interface UseRealYieldDataReturn {
   updateYieldData: () => Promise<void>;
 }
 
-// Real yield data sources
-const YIELD_API_SOURCES = {
-  lido: 'https://stake.lido.fi/api/sma-steth-apr',
-  defiLlama: 'https://yields.llama.fi/pools',
-  rocketPool: 'https://rocketpool.net/api/mainnet/payload', // Example
-};
-
 // Fallback yield estimates (realistic ranges)
 const FALLBACK_YIELDS = {
   stETH: { min: 3.5, max: 5.5, current: 4.5 },
@@ -55,7 +48,6 @@ export function useRealYieldData(): UseRealYieldDataReturn {
   const { 
     data: stETHYield, 
     isLoading: stETHLoading, 
-    error: stETHError,
     refetch: refetchStETH 
   } = useReadContract({
     address: vaultAddress as `0x${string}`,
@@ -71,7 +63,6 @@ export function useRealYieldData(): UseRealYieldDataReturn {
   const { 
     data: rETHYield, 
     isLoading: rETHLoading, 
-    error: rETHError,
     refetch: refetchRETH 
   } = useReadContract({
     address: vaultAddress as `0x${string}`,
@@ -87,7 +78,6 @@ export function useRealYieldData(): UseRealYieldDataReturn {
   const { 
     data: sAVAXYield, 
     isLoading: sAVAXLoading, 
-    error: sAVAXError,
     refetch: refetchSAVAX 
   } = useReadContract({
     address: vaultAddress as `0x${string}`,
@@ -117,7 +107,7 @@ export function useRealYieldData(): UseRealYieldDataReturn {
         results.stETH = lidoData.apr || FALLBACK_YIELDS.stETH.current;
         console.log('✅ stETH yield from API:', results.stETH);
       }
-    } catch (error) {
+    } catch {
       console.log('⚠️ Lido API fetch failed, using fallback');
     }
 
@@ -135,7 +125,7 @@ export function useRealYieldData(): UseRealYieldDataReturn {
         if (defiData.sAVAX) results.sAVAX = defiData.sAVAX;
         console.log('✅ DeFi yields from API:', defiData);
       }
-    } catch (error) {
+    } catch {
       console.log('⚠️ DeFiLlama API fetch failed, using fallback');
     }
 
@@ -187,8 +177,9 @@ export function useRealYieldData(): UseRealYieldDataReturn {
       setYieldData(newYieldData);
       setError(undefined);
       
-    } catch (error: any) {
-      console.error('❌ Error updating yield data:', error);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('❌ Error updating yield data:', errorMessage);
       setError('Failed to update yield data - using fallback');
       
       // Use fallback data with some variation
@@ -221,22 +212,20 @@ export function useRealYieldData(): UseRealYieldDataReturn {
     } finally {
       setIsLoading(false);
     }
-  }, [stETHYield, rETHYield, sAVAXYield, fetchAPIYieldData]);
+  }, [fetchAPIYieldData, stETHYield, rETHYield, sAVAXYield]);
 
-  // Update when contract data changes
+  // Manual refetch function
+  const refetch = useCallback(() => {
+    refetchStETH();
+    refetchRETH();
+    refetchSAVAX();
+    updateYieldData();
+  }, [refetchStETH, refetchRETH, refetchSAVAX, updateYieldData]);
+
+  // Auto-update on data changes
   useEffect(() => {
-    const allLoading = stETHLoading || rETHLoading || sAVAXLoading;
-    const anyError = stETHError || rETHError || sAVAXError;
-
-    if (!allLoading) {
-      updateYieldData();
-    }
-
-    if (anyError) {
-      console.log('⚠️ On-chain yield data not available, fetching from APIs...');
-      updateYieldData();
-    }
-  }, [stETHYield, rETHYield, sAVAXYield, stETHLoading, rETHLoading, sAVAXLoading, stETHError, rETHError, sAVAXError, updateYieldData]);
+    updateYieldData();
+  }, [updateYieldData]);
 
   // Auto-refresh every 5 minutes
   useEffect(() => {
@@ -247,18 +236,11 @@ export function useRealYieldData(): UseRealYieldDataReturn {
     return () => clearInterval(interval);
   }, [updateYieldData]);
 
-  const refetch = useCallback(() => {
-    if (vaultAddress) {
-      refetchStETH();
-      refetchRETH();
-      refetchSAVAX();
-    }
-    updateYieldData();
-  }, [vaultAddress, refetchStETH, refetchRETH, refetchSAVAX, updateYieldData]);
+  const combinedLoading = isLoading || stETHLoading || rETHLoading || sAVAXLoading;
 
   return {
     yieldData,
-    isLoading,
+    isLoading: combinedLoading,
     error,
     refetch,
     updateYieldData,
