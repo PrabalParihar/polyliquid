@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { ConnectButton } from '@/components/ConnectButton';
 import { DepositCard } from '@/components/DepositCard';
 import LineChart from '@/components/LineChart';
@@ -20,23 +21,29 @@ export default function Home() {
   const [ccipAmount, setCcipAmount] = useState<string | undefined>();
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--background)' }}>
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="glass-card border-0 backdrop-blur-lg sticky top-0 z-50">
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center animate-fade-in">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center">
               <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center mr-4">
-                  <span className="text-white font-bold text-lg">P</span>
-                </div>
+                                 <div className="w-10 h-10 mr-3 flex items-center justify-center">
+                   <Image 
+                     src="/polyliquid.png" 
+                     alt="PolyLiquid Logo" 
+                     width={40}
+                     height={40}
+                     className="object-contain"
+                   />
+                 </div>
                 <div>
-                  <h1 className="heading-md gradient-text font-bold">PolyLiquid</h1>
-                  <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>Multi-Asset LST Vault</span>
+                  <h1 className="text-xl font-semibold text-gray-900">PolyLiquid</h1>
+                  <span className="text-sm text-gray-500">Liquid Staking Token Vault</span>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-4 animate-fade-in">
+            <div className="flex items-center gap-4">
               <NetworkSwitcher />
               <ConnectButton />
             </div>
@@ -48,488 +55,308 @@ export default function Home() {
       <AutomationBanner />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
-        <div className="text-center mb-16 animate-slide-up">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="heading-xl gradient-text mb-6">
-              Maximize Your LST Yields with Real Data
-            </h2>
-            <p className="text-xl leading-relaxed mb-8 max-w-3xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-              Deposit your liquid staking tokens (stETH, rETH, sAVAX) into our automated vault 
-              that rebalances based on <strong>real yield data</strong> and market predictions.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <div className="glass-card px-6 py-3 rounded-full">
-                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  🌐 Live API Data
-                </span>
-              </div>
-              <div className="glass-card px-6 py-3 rounded-full">
-                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  ⛓️ On-Chain Oracles
-                </span>
-              </div>
-              <div className="glass-card px-6 py-3 rounded-full">
-                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  📊 Real Market Rates
-                </span>
-              </div>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Institutional-Grade LST Yield Management
+          </h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+            Optimize your liquid staking token yields through automated rebalancing based on 
+            real-time market data and algorithmic strategies.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <div className="bg-white px-4 py-2 rounded-lg border border-gray-200">
+              <span className="font-medium text-gray-700">Live Market Data</span>
+            </div>
+            <div className="bg-white px-4 py-2 rounded-lg border border-gray-200">
+              <span className="font-medium text-gray-700">On-Chain Oracles</span>
+            </div>
+            <div className="bg-white px-4 py-2 rounded-lg border border-gray-200">
+              <span className="font-medium text-gray-700">Cross-Chain Infrastructure</span>
             </div>
           </div>
         </div>
 
         {/* Real Yield Chart */}
-        <div className="mb-16 animate-scale-in">
+        <div className="mb-12">
           <LineChart />
         </div>
 
         {/* Live Data Sources */}
-        <div className="mb-16 animate-scale-in">
-          <div className="text-center mb-12">
-            <h3 className="heading-lg mb-4" style={{ color: 'var(--text-primary)' }}>
-              Live Data Sources
+        <div className="mb-12">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Data Sources & Infrastructure
             </h3>
-            <p className="text-body max-w-2xl mx-auto mb-8">
-              Transparent, real-time yield data from trusted market sources ensuring accuracy and reliability.
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Transparent, institutional-grade data sources ensuring accuracy and reliability for yield optimization.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Lido API */}
-            <div className="card text-center p-8 animate-slide-up">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" 
-                   style={{ background: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)' }}>
-                <span className="text-2xl">🏛️</span>
-              </div>
-              <h4 className="heading-md mb-4" style={{ color: 'var(--text-primary)' }}>
-                Lido Protocol API
-              </h4>
-              <p className="text-body mb-4">
-                Official stETH yield data from Lido&apos;s Simple Moving Average API
-              </p>
-              <div className="space-y-2">
-                <div className="glass-card px-4 py-2 rounded-full text-sm">
-                  <span style={{ color: 'var(--text-secondary)' }}>Asset: </span>
-                  <span className="font-medium text-blue-400">stETH</span>
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-blue-600 font-semibold">L</span>
                 </div>
-                <div className="glass-card px-4 py-2 rounded-full text-sm">
-                  <span style={{ color: 'var(--text-secondary)' }}>Source: </span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Lido Protocol API</h4>
+                  <p className="text-sm text-gray-500">Official stETH yield data</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Asset:</span>
+                  <span className="font-medium">stETH</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Source:</span>
                   <span className="font-medium">eth-api.lido.fi</span>
                 </div>
-                <div className="status-success text-sm">
-                  ✅ Live & Verified
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Status:</span>
+                  <span className="text-green-600 font-medium">Active</span>
                 </div>
               </div>
             </div>
 
             {/* DeFiLlama API */}
-            <div className="card text-center p-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" 
-                   style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
-                <span className="text-2xl">🦙</span>
-              </div>
-              <h4 className="heading-md mb-4" style={{ color: 'var(--text-primary)' }}>
-                DeFiLlama API
-              </h4>
-              <p className="text-body mb-4">
-                Comprehensive LST yield data from DeFi&apos;s most trusted aggregator
-              </p>
-              <div className="space-y-2">
-                <div className="glass-card px-4 py-2 rounded-full text-sm">
-                  <span style={{ color: 'var(--text-secondary)' }}>Assets: </span>
-                  <span className="font-medium text-green-400">rETH, sAVAX</span>
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-green-600 font-semibold">D</span>
                 </div>
-                <div className="glass-card px-4 py-2 rounded-full text-sm">
-                  <span style={{ color: 'var(--text-secondary)' }}>Source: </span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">DeFiLlama API</h4>
+                  <p className="text-sm text-gray-500">Multi-protocol yield data</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Assets:</span>
+                  <span className="font-medium">rETH, sAVAX</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Source:</span>
                   <span className="font-medium">yields.llama.fi</span>
                 </div>
-                <div className="status-success text-sm">
-                  ✅ Live & Verified
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Status:</span>
+                  <span className="text-green-600 font-medium">Active</span>
                 </div>
               </div>
             </div>
 
             {/* On-Chain Oracle */}
-            <div className="card text-center p-8 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" 
-                   style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' }}>
-                <span className="text-2xl">⛓️</span>
-              </div>
-              <h4 className="heading-md mb-4" style={{ color: 'var(--text-primary)' }}>
-                RealYieldOracle
-              </h4>
-              <p className="text-body mb-4">
-                On-chain smart contract oracle for backup data and decentralized verification
-              </p>
-              <div className="space-y-2">
-                <div className="glass-card px-4 py-2 rounded-full text-sm">
-                  <span style={{ color: 'var(--text-secondary)' }}>Network: </span>
-                  <span className="font-medium text-purple-400">Avalanche</span>
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-purple-600 font-semibold">O</span>
                 </div>
-                <div className="glass-card px-4 py-2 rounded-full text-sm">
-                  <span style={{ color: 'var(--text-secondary)' }}>Type: </span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">RealYieldOracle</h4>
+                  <p className="text-sm text-gray-500">On-chain data verification</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Network:</span>
+                  <span className="font-medium">Avalanche</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Type:</span>
                   <span className="font-medium">Smart Contract</span>
                 </div>
-                <div className="status-success text-sm">
-                  ✅ Deployed & Active
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Status:</span>
+                  <span className="text-green-600 font-medium">Deployed</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Data Flow Indicator */}
-          <div className="mt-12 text-center">
-            <div className="glass-card px-8 py-6 inline-block rounded-2xl">
-              <div className="flex items-center justify-center gap-4 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></div>
-                  <span className="text-sm font-medium">Lido API</span>
-                </div>
-                <span className="text-gray-400">+</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                  <span className="text-sm font-medium">DeFiLlama API</span>
-                </div>
-                <span className="text-gray-400">+</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-purple-500 animate-pulse"></div>
-                  <span className="text-sm font-medium">On-Chain Oracle</span>
-                </div>
-                <span className="text-gray-400">=</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">📊</span>
-                  <span className="text-sm font-medium text-gradient">Real Market Data</span>
-                </div>
+          {/* Data Flow Summary */}
+          <div className="mt-8 bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-1">Data Integration Summary</h4>
+                <p className="text-sm text-gray-500">
+                  Multi-source data aggregation with automatic failover and validation
+                </p>
               </div>
-              <p className="text-xs mt-3" style={{ color: 'var(--text-tertiary)' }}>
-                Data updates every 5 minutes • Automatic fallback system • 99.9% uptime
-              </p>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-gray-900">99.9%</div>
+                <div className="text-sm text-gray-500">Uptime</div>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-100">
+              <div className="text-center">
+                <div className="text-lg font-semibold text-gray-900">3</div>
+                <div className="text-xs text-gray-500">Data Sources</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-semibold text-gray-900">5min</div>
+                <div className="text-xs text-gray-500">Update Frequency</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-semibold text-gray-900">Auto</div>
+                <div className="text-xs text-gray-500">Failover</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-semibold text-gray-900">Real-time</div>
+                <div className="text-xs text-gray-500">Validation</div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Deposit Cards */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="heading-lg mb-4" style={{ color: 'var(--text-primary)' }}>
-              Deposit Your Assets
+        <div className="mb-12">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Supported Assets
             </h3>
-            <p className="text-body max-w-2xl mx-auto">
-              Start earning enhanced yields by depositing your liquid staking tokens into our intelligent vault system.
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Deposit your liquid staking tokens to begin earning optimized yields through our automated vault system.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-            <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              <DepositCard tokenSymbol="stETH" />
-            </div>
-            <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <DepositCard tokenSymbol="rETH" />
-            </div>
-            <div className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
-              <DepositCard tokenSymbol="sAVAX" />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+            <DepositCard tokenSymbol="stETH" />
+            <DepositCard tokenSymbol="rETH" />
+            <DepositCard tokenSymbol="sAVAX" />
           </div>
         </div>
 
         {/* CCIP Transfer and Prediction Panel */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="heading-lg mb-4" style={{ color: 'var(--text-primary)' }}>
-              Cross-Chain & Market Intelligence
+        <div className="mb-12">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Advanced Features
             </h3>
-            <p className="text-body max-w-2xl mx-auto">
-              Transfer assets across chains seamlessly and leverage market predictions to optimize your yield strategy.
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Cross-chain asset management and market intelligence for institutional-grade yield optimization.
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 justify-items-center">
-            <div className="animate-slide-up w-full max-w-md">
-              <CCIPTransfer
-                onTransferInitiated={(messageId, sourceChain, destinationChain, amount) => {
-                  setCcipMessageId(messageId);
-                  setCcipSourceChain(sourceChain);
-                  setCcipDestinationChain(destinationChain);
-                  setCcipAmount(amount);
-                  setCcipModalOpen(true);
-                }}
-              />
-            </div>
-            <div className="animate-slide-up w-full max-w-md" style={{ animationDelay: '0.1s' }}>
-              <PredictionPanel />
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <CCIPTransfer
+              onTransferInitiated={(messageId, sourceChain, destinationChain, amount) => {
+                setCcipMessageId(messageId);
+                setCcipSourceChain(sourceChain);
+                setCcipDestinationChain(destinationChain);
+                setCcipAmount(amount);
+                setCcipModalOpen(true);
+              }}
+            />
+            <PredictionPanel />
           </div>
         </div>
 
         {/* Features Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="heading-lg mb-4" style={{ color: 'var(--text-primary)' }}>
-              Why Choose PolyLiquid
+        <div className="mb-12">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Platform Capabilities
             </h3>
-            <p className="text-body max-w-2xl mx-auto">
-              Built with cutting-edge technology to provide the best DeFi experience.
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Enterprise-grade infrastructure designed for institutional yield management.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card text-center p-8 animate-scale-in">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" 
-                   style={{ background: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)' }}>
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h4 className="heading-md mb-4" style={{ color: 'var(--text-primary)' }}>
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">
                 Automated Rebalancing
               </h4>
-              <p className="text-body">
-                Smart algorithms automatically rebalance your portfolio based on yield differentials and market conditions.
+              <p className="text-gray-600">
+                Algorithm-driven portfolio optimization based on real-time yield differentials and market conditions.
               </p>
             </div>
             
-            <div className="card text-center p-8 animate-scale-in" style={{ animationDelay: '0.1s' }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" 
-                   style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h4 className="heading-md mb-4" style={{ color: 'var(--text-primary)' }}>
-                Multi-Chain Support
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                Multi-Chain Architecture
               </h4>
-              <p className="text-body">
-                Deploy across Ethereum, Avalanche, and other supported networks for maximum yield opportunities.
+              <p className="text-gray-600">
+                Seamless deployment across Ethereum, Avalanche, and other supported networks for maximum opportunities.
               </p>
             </div>
             
-            <div className="card text-center p-8 animate-scale-in" style={{ animationDelay: '0.2s' }}>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" 
-                   style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' }}>
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <h4 className="heading-md mb-4" style={{ color: 'var(--text-primary)' }}>
-                Secure & Audited
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                Security & Audits
               </h4>
-              <p className="text-body">
-                Built with security-first principles using battle-tested smart contracts and comprehensive testing.
+              <p className="text-gray-600">
+                Built with security-first principles using audited smart contracts and comprehensive risk management.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Technology Integration Showcase */}
-        <div className="card-elevated p-10 animate-scale-in">
-          <div className="text-center mb-10">
-            <h3 className="heading-lg mb-4" style={{ color: 'var(--text-primary)' }}>
-              Powered by Cutting-Edge Technology
+        {/* Technology Integration */}
+        <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Infrastructure Partners
             </h3>
-            <p className="text-body">Innovative integrations that make PolyLiquid possible</p>
+            <p className="text-gray-600">Enterprise-grade technology stack powering PolyLiquid</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Chainlink Integration */}
-            <div className="glass-card p-6 rounded-lg text-center">
-              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl"
-                   style={{ background: 'linear-gradient(135deg, #375bd2 0%, #2c4aa0 100%)' }}>
-                🔗
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="text-center p-4 border border-gray-100 rounded-lg">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                <span className="text-blue-600 font-bold">CL</span>
               </div>
-              <h4 className="heading-md mb-3" style={{ color: 'var(--text-primary)' }}>
-                Chainlink CCIP
-              </h4>
-              <p className="text-body mb-4">
-                Cross-chain asset transfers with enterprise-grade security and reliability
-              </p>
-              <div className="status-success">
-                Live Integration
-              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Chainlink CCIP</h4>
+              <p className="text-sm text-gray-600">Cross-chain infrastructure</p>
+              <div className="mt-2 text-xs text-green-600 font-medium">Production Ready</div>
             </div>
 
-            {/* Data Streams */}
-            <div className="glass-card p-6 rounded-lg text-center">
-              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl"
-                   style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
-                📊
+            <div className="text-center p-4 border border-gray-100 rounded-lg">
+              <div className="w-12 h-12 bg-green-100 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                <span className="text-green-600 font-bold">DS</span>
               </div>
-              <h4 className="heading-md mb-3" style={{ color: 'var(--text-primary)' }}>
-                Chainlink Data Streams
-              </h4>
-              <p className="text-body mb-4">
-                Real-time LST yield data for automated rebalancing and optimization
-              </p>
-              <div className="status-success">
-                Real-time Data
-              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Data Streams</h4>
+              <p className="text-sm text-gray-600">Real-time yield data</p>
+              <div className="mt-2 text-xs text-green-600 font-medium">Live Integration</div>
             </div>
 
-            {/* Chainlink Functions */}
-            <div className="glass-card p-6 rounded-lg text-center">
-              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl"
-                   style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' }}>
-                ⚡
+            <div className="text-center p-4 border border-gray-100 rounded-lg">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                <span className="text-purple-600 font-bold">CF</span>
               </div>
-              <h4 className="heading-md mb-3" style={{ color: 'var(--text-primary)' }}>
-                Chainlink Functions
-              </h4>
-              <p className="text-body mb-4">
-                Custom computation and external API integration for market predictions
-              </p>
-              <div className="status-success">
-                Custom Logic
-              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Chainlink Functions</h4>
+              <p className="text-sm text-gray-600">Custom computation</p>
+              <div className="mt-2 text-xs text-green-600 font-medium">Active</div>
             </div>
 
-            {/* Polymarket API */}
-            <div className="glass-card p-6 rounded-lg text-center">
-              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl"
-                   style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}>
-                🎯
+            <div className="text-center p-4 border border-gray-100 rounded-lg">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                <span className="text-orange-600 font-bold">PM</span>
               </div>
-              <h4 className="heading-md mb-3" style={{ color: 'var(--text-primary)' }}>
-                Polymarket Integration
-              </h4>
-              <p className="text-body mb-4">
-                Live prediction markets data for intelligent yield strategy optimization
-              </p>
-              <div className="status-success">
-                Market Intelligence
-              </div>
-            </div>
-
-            {/* Automation */}
-            <div className="glass-card p-6 rounded-lg text-center">
-              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl"
-                   style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' }}>
-                🤖
-              </div>
-              <h4 className="heading-md mb-3" style={{ color: 'var(--text-primary)' }}>
-                Chainlink Automation
-              </h4>
-              <p className="text-body mb-4">
-                Autonomous vault management with intelligent rebalancing triggers
-              </p>
-              <div className="status-success">
-                Fully Automated
-              </div>
-            </div>
-
-            {/* Multi-Chain */}
-            <div className="glass-card p-6 rounded-lg text-center">
-              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl"
-                   style={{ background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)' }}>
-                🌐
-              </div>
-              <h4 className="heading-md mb-3" style={{ color: 'var(--text-primary)' }}>
-                Multi-Chain Architecture
-              </h4>
-              <p className="text-body mb-4">
-                Seamless operation across Ethereum, Avalanche, and other networks
-              </p>
-              <div className="status-success">
-                Cross-Chain Ready
-              </div>
-            </div>
-          </div>
-
-          {/* Innovation Highlights */}
-          <div className="mt-12 glass-card p-6 rounded-lg">
-            <div className="text-center mb-6">
-              <h4 className="heading-md mb-2" style={{ color: 'var(--text-primary)' }}>
-                🚀 Innovation Highlights
-              </h4>
-              <p className="text-body">What makes PolyLiquid unique in the DeFi ecosystem</p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="text-3xl mb-2">🔮</div>
-                <h5 className="font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                  Predictive Rebalancing
-                </h5>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  First LST vault to use prediction markets for yield optimization
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-3xl mb-2">⚡</div>
-                <h5 className="font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                  Real-time Data
-                </h5>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Live yield feeds integrated directly into smart contracts
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-3xl mb-2">🌉</div>
-                <h5 className="font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                  Cross-Chain Native
-                </h5>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Built from the ground up for multi-chain DeFi
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Call to Action */}
-          <div className="mt-8 text-center">
-            <div className="inline-flex items-center gap-4 glass-card px-6 py-3 rounded-full">
-              <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                🏆 Built for Hackathon Excellence
-              </span>
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Live Demo Ready
-              </span>
+              <h4 className="font-semibold text-gray-900 mb-2">Polymarket</h4>
+              <p className="text-sm text-gray-600">Market intelligence</p>
+              <div className="mt-2 text-xs text-green-600 font-medium">Connected</div>
             </div>
           </div>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t mt-20" style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center mr-3">
-                  <span className="text-white font-bold">P</span>
-                </div>
-                <span className="heading-md gradient-text">PolyLiquid</span>
-              </div>
-              <p className="text-body max-w-md">
-                The future of liquid staking is here. Maximize your yields with intelligent automation and cross-chain capabilities.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Protocol</h4>
-              <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Documentation</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Governance</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Security</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Audits</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Community</h4>
-              <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Discord</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Twitter</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">GitHub</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Blog</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t pt-8 mt-8 text-center" style={{ borderColor: 'var(--border)' }}>
-            <p style={{ color: 'var(--text-tertiary)' }}>
-              &copy; 2025 PolyLiquid. Built for the future of DeFi.
-            </p>
-          </div>
-        </div>
-      </footer>
-
-      {/* CCIP Status Modal */}
+      {/* CCIP Modal */}
       <CCIPStatusModal
         isOpen={ccipModalOpen}
         onClose={() => setCcipModalOpen(false)}

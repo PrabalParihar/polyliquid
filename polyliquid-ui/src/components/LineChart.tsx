@@ -224,22 +224,22 @@ export default function LineChart() {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-100">
+      <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Live LST Yield Tracking</h3>
+            <h3 className="text-lg font-semibold text-gray-900">Liquid Staking Token Yields</h3>
             <p className="text-sm text-gray-600 mt-1">
-              Real-time yields from {stETHData?.source === 'api' ? 'live APIs' : 'on-chain oracles'}
+              Real-time yield data from {stETHData?.source === 'api' ? 'market APIs' : 'on-chain sources'}
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {yieldData.map((data) => (
               <div key={data.symbol} className="flex items-center gap-1">
                 <div className={`w-2 h-2 rounded-full ${data.source === 'api' ? 'bg-green-500' : data.source === 'onchain' ? 'bg-blue-500' : 'bg-yellow-500'}`}></div>
-                <span className="text-xs text-gray-500">
-                  {data.source === 'api' ? '🌐' : data.source === 'onchain' ? '⛓️' : '🔄'}
+                <span className="text-xs text-gray-500 font-medium">
+                  {data.source === 'api' ? 'API' : data.source === 'onchain' ? 'Chain' : 'Calc'}
                 </span>
               </div>
             ))}
@@ -255,15 +255,15 @@ export default function LineChart() {
       </div>
 
       {/* Stats Cards */}
-      <div className="bg-gray-50 px-6 py-4">
+      <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Individual Asset Cards */}
           {yieldData.map((data) => (
             <div key={data.symbol} className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-600">{data.symbol}</span>
-                <span className="text-xs text-gray-500">
-                  {data.source === 'api' ? '🌐 Live' : data.source === 'onchain' ? '⛓️ Chain' : '🔄 Calc'}
+                <span className="text-sm font-semibold text-gray-700">{data.symbol}</span>
+                <span className="text-xs text-gray-500 font-medium">
+                  {data.source === 'api' ? 'Live' : data.source === 'onchain' ? 'Chain' : 'Calc'}
                 </span>
               </div>
               <div className="text-2xl font-bold text-gray-900 mb-1">
@@ -276,13 +276,13 @@ export default function LineChart() {
           ))}
 
           {/* Summary Card */}
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg p-4 text-white">
+          <div className="bg-blue-600 rounded-lg p-4 text-white">
             <div className="text-sm font-medium mb-2">Portfolio Average</div>
             <div className="text-2xl font-bold mb-1">
               {averageYield.toFixed(2)}%
             </div>
             <div className="text-xs opacity-90">
-              Best: {highestYieldAsset}
+              Best performer: {highestYieldAsset}
             </div>
           </div>
         </div>
